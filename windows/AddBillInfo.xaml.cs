@@ -105,8 +105,8 @@ namespace TuwenDayinDian.windows
             }
             string[] contactPerson = name1.Split(new char[] { ',' });
             comboBox_OrderBy.ItemsSource = contactPerson;
-            string level=reader.GetString("level");
-            Calculate.level = "L" + level;
+            //string level=reader.GetString("level");
+            //Calculate.level = "L" + level;
 
 
             List<string> page = new List<string>();
