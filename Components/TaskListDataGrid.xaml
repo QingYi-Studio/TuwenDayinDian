@@ -1,0 +1,361 @@
+﻿<UserControl x:Class="TuwenDayinDian.Components.TaskListDataGrid"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:TuwenDayinDian.Components"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:myhelper="clr-namespace:TuwenDayinDian.Helpers"
+             xmlns:compon="clr-namespace:TuwenDayinDian.Components"
+             xmlns:pu="clr-namespace:Panuon.UI.Silver;assembly=Panuon.UI.Silver"
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="700"
+             x:Name="ThisUserControl">
+    <UserControl.Resources>
+        <ObjectDataProvider x:Key="Printers"
+                            ObjectType="{x:Type myhelper:PrinterHelper}"
+                            MethodName="GetInstalledPrinters" />
+        <x:Array Type="sys:String"
+                 x:Key="PaperSizes">
+            <sys:String>A4</sys:String>
+            <sys:String>A3</sys:String>
+ 
+            <!-- ... 其他大小 ... -->
+        </x:Array>
+        <x:Array Type="sys:String"
+                 x:Key="Directions">
+            <sys:String>纵向</sys:String>
+            <sys:String>横向</sys:String>
+        </x:Array>
+        <x:Array Type="sys:String"
+                 x:Key="DuplexOptions">
+            <sys:String>单面打印</sys:String>
+            <sys:String>长边翻页</sys:String>
+            <sys:String>短边翻页</sys:String>
+        </x:Array>
+    </UserControl.Resources>
+
+    <Grid DragEnter="TaskListView_DragEnter"
+          Drop="TaskListView_DropOnDataGrid"
+          AllowDrop="True"
+          VerticalAlignment="Stretch"
+          x:Name="OuterGrid">
+
+        <DataGrid x:Name="TaskListView"
+                  AutoGenerateColumns="False"
+                  CanUserReorderColumns="False"
+                  CanUserSortColumns="True"
+                  AllowDrop="True"
+                  SelectionMode="Single"
+                  PreviewMouseLeftButtonDown="TaskListView_PreviewMouseLeftButtonDown"
+                  Drop="TaskListView_Drop"
+                  ColumnWidth="*"
+                  RowHeight="30"
+                  CanUserAddRows="False"
+                  GridLinesVisibility="None"
+                  BorderThickness="0"
+                  LoadingRow="TaskListView_LoadingRow"
+                  VerticalContentAlignment="Top"
+                  VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Disabled"  
+                  Background="White"
+                  FontSize="10"
+                  >
+
+            <DataGrid.ColumnHeaderStyle >
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Height"
+                            Value="30" />    
+                    <Setter Property="Background"
+                            Value="#f7f7f7" />
+                    <Setter Property="Foreground"
+                            Value="DarkGray" />
+                    <Setter Property="HorizontalContentAlignment"
+                            Value="Center" />
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="DataGridCell">
+                                <Border Background="{TemplateBinding Background}"
+                                 BorderBrush="{TemplateBinding BorderBrush}"
+                                 BorderThickness="{TemplateBinding BorderThickness}"
+                                 SnapsToDevicePixels="True">
+                                    <ContentPresenter VerticalAlignment="Center" />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="#cceabb" />
+                            <Setter Property="Foreground" Value="Black" />                           
+                            <Setter Property="BorderThickness" Value="0" />
+                        </Trigger>
+                    </Style.Triggers>
+
+
+
+
+                    <!--<Setter Property="Height"
+                            Value="30" />
+                    <Setter Property="VerticalAlignment"
+                            Value="Center" />
+                    <Setter Property="HorizontalAlignment"
+                            Value="Stretch" />-->
+                    
+                    
+                    
+
+                </Style>
+            </DataGrid.CellStyle>
+
+
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="序号"
+                                    Binding="{Binding 序号}"
+                                    Width="20">
+                    
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment"
+                                    Value="Center" />                          
+                            <Setter Property="HorizontalAlignment"
+                                    Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+
+                </DataGridTextColumn>
+                <!-- 新增的图标列 -->
+                <DataGridTemplateColumn Header=""
+                                        Width="30">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <compon:FileIconControl FileName="{Binding 图标}"
+                                                    Height="20"
+                                                    Width="18"></compon:FileIconControl>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="文件名称"
+                                    Binding="{Binding 文件名称}"
+                                    MinWidth="220">
+
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment"
+                                    Value="Center" />
+                            <Setter Property="HorizontalAlignment"
+                                    Value="Left" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="页数"
+                                    Binding="{Binding 页数}"
+                                    Width="30">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment"
+                                    Value="Center" />
+                            <Setter Property="HorizontalAlignment"
+                                    Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+
+                </DataGridTextColumn>
+                <DataGridComboBoxColumn Header="大小"
+                                        ItemsSource="{StaticResource PaperSizes}"
+                                        SelectedValueBinding="{Binding 大小, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="50"
+                                       >
+
+
+                    <DataGridComboBoxColumn.EditingElementStyle >
+                        <Style TargetType="ComboBox"> 
+                            <Setter Property="VerticalContentAlignment"
+                                    Value="Center" />
+                            <Setter Property="HorizontalContentAlignment"
+                                    Value="Center" />
+                            <Setter Property="SelectedIndex"
+                                    Value="0" />
+                        </Style>
+                    </DataGridComboBoxColumn.EditingElementStyle>
+
+                </DataGridComboBoxColumn>
+                
+                
+                
+                
+                <!-- 方向列 -->
+                <DataGridComboBoxColumn Header="方向" Width="50"
+                                        ItemsSource="{StaticResource Directions}"
+                                        SelectedValueBinding="{Binding 方向, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
+                    <DataGridComboBoxColumn.EditingElementStyle>
+                        <Style TargetType="ComboBox">
+                            <Setter Property="VerticalContentAlignment"
+                                    Value="Center" />
+                            <Setter Property="HorizontalContentAlignment"
+                                    Value="Center" />
+                            <Setter Property="SelectedIndex"
+                                    Value="0" />
+                        </Style>
+                    </DataGridComboBoxColumn.EditingElementStyle>
+
+                </DataGridComboBoxColumn>
+
+
+
+
+                <!--Header="方向"
+                                        ItemsSource="{StaticResource Directions}"
+                                        SelectedValueBinding="{Binding 方向, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
+                    <!--<DataGridComboBoxColumn.EditingElementStyle>
+                        <Style TargetType="ComboBox">
+                            <Setter Property="VerticalContentAlignment"
+                                    Value="Center" />
+                            <Setter Property="HorizontalContentAlignment"
+                                    Value="Center" />
+                            <Setter Property="SelectedIndex"
+                                    Value="0" />
+                        </Style>
+                    </DataGridComboBoxColumn.EditingElementStyle>-->
+                    
+                    
+                <!-- 份数 -->
+      
+                <DataGridTextColumn Header="份数"
+                                    Binding="{Binding 份数}"
+                                    Width="15">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment"
+                                    Value="Center" />
+                            <Setter Property="HorizontalAlignment"
+                                    Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                
+                <!-- 双面列 -->
+                <DataGridComboBoxColumn Header="双面"
+                                        ItemsSource="{StaticResource DuplexOptions}"
+                                        SelectedValueBinding="{Binding 双面, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="60">              
+                    
+
+                    <DataGridComboBoxColumn.EditingElementStyle>
+                        <Style TargetType="ComboBox">
+                            <Setter Property="VerticalContentAlignment"
+                                    Value="Center" />
+                            <Setter Property="HorizontalContentAlignment"
+                                    Value="Center" />
+                            <Setter Property="SelectedIndex"
+                                    Value="0" />
+                        </Style>
+                    </DataGridComboBoxColumn.EditingElementStyle>
+
+                </DataGridComboBoxColumn>
+                
+                <!-- 缩放 -->
+                <DataGridTextColumn Header="缩放"
+                                    Binding="{Binding 缩放}"
+                                    Width="35">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment"
+                                    Value="Center" />
+                            <Setter Property="HorizontalAlignment"
+                                    Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+
+                </DataGridTextColumn>
+
+                <!--<DataGridTemplateColumn  Header="打印机名称" Width="180">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox SelectedValue="{Binding 打印机, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                      ItemsSource="{Binding Source={StaticResource Printers}}"                                              
+                                              FontSize="10"
+                                              Width="180" 
+                                              Background="Transparent"   
+                                              BorderBrush="Transparent"
+                                              pu:ComboBoxHelper.ItemHeight="20"                                              
+                                              pu:ComboBoxHelper.HoverBackground="White"
+                                              pu:ComboBoxHelper.SelectedBackground="White"
+                                              />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>-->
+
+
+
+                <DataGridComboBoxColumn Header="打印机名称"
+                                        ItemsSource="{Binding Source={StaticResource Printers}}"
+                                        SelectedValueBinding="{Binding 打印机}"
+                                        MinWidth="180">
+                    <DataGridComboBoxColumn.ElementStyle>
+                        <Style TargetType="ComboBox">
+                            <Setter Property="VerticalContentAlignment"
+                                    Value="Center" />
+                            <Setter Property="HorizontalContentAlignment"
+                                    Value="Center" />
+                        </Style>
+                    </DataGridComboBoxColumn.ElementStyle>
+                </DataGridComboBoxColumn>
+                
+                
+                <DataGridTextColumn Header="状态"
+                                    Binding="{Binding 打印状态}"
+                                    Width="40">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment"
+                                    Value="Center" />
+                            <Setter Property="HorizontalAlignment"
+                                    Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+
+                </DataGridTextColumn>
+                
+                
+                
+                
+                <DataGridTemplateColumn
+                    Width="30">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Grid.Row="0"
+                                    Grid.Column="1"
+                                    Background="Transparent"
+                                    Width="30"
+                                    Height="40"
+                                    FontSize="15"
+                                    HorizontalAlignment="Center" 
+                                    Foreground="DarkGray"
+                                    BorderThickness="0"
+                                    VerticalContentAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Margin="0,5,15,10"
+                                    x:Name="btnDelRow"
+                                    >
+                                <Button.Content>
+                                    <TextBlock Text="x" Tag="{Binding 序号}"></TextBlock>
+                                </Button.Content>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

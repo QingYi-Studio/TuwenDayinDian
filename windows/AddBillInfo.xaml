@@ -1,0 +1,658 @@
+﻿<Window x:Class="TuwenDayinDian.windows.AddBillInfo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TuwenDayinDian.windows"
+        mc:Ignorable="d"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        Height="490" Width="381"
+        Background="Transparent" 
+        WindowStyle="None" 
+        OpacityMask="White"
+        AllowsTransparency="True" 
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+      UseLayoutRounding="False">
+    <Window.Resources>
+        <x:Array Type="sys:String"
+                 x:Key="DuplexOptions">
+            <sys:String>印刷</sys:String>
+            <sys:String>广告</sys:String>
+            <sys:String>其他</sys:String>
+        </x:Array>
+
+    </Window.Resources>
+
+
+    <Border Grid.Row="0"
+                Width="381"
+                Height="490"                  
+                Background="White"
+                CornerRadius="20"
+                BorderThickness="1"
+                BorderBrush="Gray">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="55"/>
+                <RowDefinition Height="2"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+
+
+            <DockPanel  Grid.Row="0"   Width="314" LastChildFill="False">
+                <Label DockPanel.Dock="Left" Foreground="#3f3f45" FontSize="16" FontWeight="Bold" Content="新建账单" Height="30" />
+                <Button DockPanel.Dock="Right"  Width="30" Height="30" 
+                Background="Transparent"
+                BorderBrush="Transparent"
+                Foreground="#c0c0c2"
+                FontSize="25"
+                Content="×"                        
+                Click="close_thisWindon"/>
+
+            </DockPanel>
+            <Border  Grid.Row="1" Width="360" Height="2" Background="#f3f3f3"  />
+
+
+
+            <StackPanel  Grid.Row="2"   Width="340" Orientation="Horizontal" >
+
+                <StackPanel  >
+                    <Label  Foreground="#3f3f45" FontSize="12" FontWeight="Bold" Content="账单类型" Height="25" HorizontalAlignment="Left" />
+                    <!--<Grid>
+                        <ComboBox x:Name="comboBox" SelectionChanged="ComboBox_SelectionChanged">
+                            <ComboBoxItem x:Name="showItem" Content="显示" Tag="Visible"/>
+                            <ComboBoxItem x:Name="hideItem" Content="隐藏" Tag="Collapsed"/>
+                        </ComboBox>
+
+                        <StackPanel x:Name="stackPanel" Visibility="Collapsed">
+                            -->
+                    <!-- 这里是你要显示或隐藏的内容 -->
+                    <!--
+                            <TextBlock Text="这是要显示或隐藏的内容"/>
+                        </StackPanel>
+                    </Grid>-->
+                    <ComboBox x:Name="comboBox_printType" Width="110" Height="40"  ItemsSource="{Binding Source={StaticResource DuplexOptions}}" Text="印刷" SelectionChanged="ComboBox_SelectionChanged" Style="{StaticResource MyCbbStyle}"/>
+
+                    <!--<ComboBox x:Name="comboBox" Width="110" Height="40" SelectedItem="{Binding SelectedItem}"  SelectionChanged="ComboBox_SelectionChanged" Style="{StaticResource MyCbbStyle}">
+                            <ComboBox.Items>
+                                <ComboBoxItem Content="显示" Tag="Visible"/>
+                                <ComboBoxItem Content="隐藏" Tag="Collapsed"/>
+                            </ComboBox.Items>
+                        </ComboBox>-->
+
+
+                </StackPanel>
+
+                <StackPanel  HorizontalAlignment="Left" Margin="20,0,20,0">
+                    <Label  Foreground="#3f3f45" FontSize="12" FontWeight="Bold" Content="下单人" Height="25" Width="70"  HorizontalAlignment="Left"/>
+                    <ComboBox  x:Name="comboBox_OrderBy" Width="110" Height="40"   SelectedIndex="0"  Style="{StaticResource MyCbbStyle}"/>
+                </StackPanel>
+
+
+                <StackPanel >
+                    <Label  Foreground="#3f3f45" FontSize="12" FontWeight="Bold" Content="份数" Height="25"  HorizontalAlignment="Left"/>
+                    <Grid Width="80" Height="40">
+                        <Rectangle Fill="#f7f7f7" RadiusX="8" RadiusY="8"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="26"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="IntegerTextBox" DataObject.Pasting="Volt_Pasting" PreviewKeyDown="Volt_PreviewKeyDown" InputMethod.IsInputMethodEnabled="False"  PreviewTextInput="Volt_PreviewTextInput" 
+ TextWrapping="Wrap"  MaxLength="8" Text="1" Background="Transparent" BorderThickness="0" FontSize="16" Foreground="#787878" Margin="10 0 0 0" VerticalAlignment="Center"/>
+                            <StackPanel Grid.Column="1"  Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <ToggleButton  Style="{StaticResource CountxToggleButtonStyleup}"  Background="#f7f7f7" Margin="0,0,0,2" Click="IncreaseButton_Click"/>
+                                <ToggleButton  Style="{StaticResource CountxToggleButtonStyledown}"  Background="#f7f7f7" Click="DecreaseButton_Click" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </StackPanel >
+            </StackPanel>
+
+            <!--印刷单-->
+            <StackPanel  x:Name="Print_StackPanel" Grid.Row="3" Width="340" Orientation="Vertical"  HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Visible" >
+                <WrapPanel>
+                    <TextBox  x:Name="textBox_printName"  Width="260" Height="30" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"  BorderThickness="0,0,0,1"  FontSize="15" >
+                        <TextBox.Resources>
+                            <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left" AlignmentY="Bottom">
+                                <VisualBrush.Visual>
+                                    <TextBlock FontStyle="Italic" Text="账目名称"/>
+                                </VisualBrush.Visual>
+                            </VisualBrush>
+                        </TextBox.Resources>
+                        <TextBox.Style>
+                            <Style TargetType="{x:Type TextBox}">
+                                <Style.Triggers>
+                                    <Trigger Property="Text" Value="{x:Null}">
+                                        <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="">
+                                        <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+
+
+                    <Grid>
+                        <TextBox x:Name="textBox_PagesNum" Width="70" Height="30"   Margin="10,0,0,0" HorizontalContentAlignment="Left"  VerticalContentAlignment="Bottom"  
+                              BorderThickness="0,0,0,1"  FontSize="15" TextChanged="TextBox_PagecountTextChanged"/>
+                        <TextBlock x:Name="placePagecountTextBlock" FontSize="16" FontStyle="Italic" Text="页数"  HorizontalAlignment="Center" VerticalAlignment="Center"
+        Opacity="0.3" IsHitTestVisible="False" Visibility="Visible"/>
+                    </Grid>
+
+
+                    <!--<TextBox  x:Name="textBox_PagesNum" Width="70" Height="30" Margin="10,0,0,0" HorizontalContentAlignment="Left"  VerticalContentAlignment="Bottom"  
+                              TextChanged="TextBox_PagecountTextChanged" BorderThickness="0,0,0,1"  FontSize="15" >
+                        <TextBox.Resources>
+                            <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left" AlignmentY="Bottom">
+                                <VisualBrush.Visual>
+                                    <TextBlock FontStyle="Italic" Text="页数"/>
+                                </VisualBrush.Visual>
+                            </VisualBrush>
+                        </TextBox.Resources>
+                        <TextBox.Style>
+                            <Style TargetType="{x:Type TextBox}">
+                                <Style.Triggers>
+                                    <Trigger Property="Text" Value="{x:Null}">
+                                        <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="">
+                                        <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>-->
+                    <Label  Foreground="#3f3f45" FontSize="12" FontWeight="Bold" Content="内页" Height="24" Width="340" HorizontalAlignment="Left" />
+                    <StackPanel Orientation="Horizontal" Height="30" >
+                        <RadioButton Name="sizeA4" Content="A4" GroupName="Radio_PaperSizes" Style="{StaticResource RadioButtonStyle}" Checked="RadioButton_CheckedSize" />
+                        <RadioButton Name="sizeA3" Content="A3" GroupName="Radio_PaperSizes" Style="{StaticResource RadioButtonStyle}" Checked="RadioButton_CheckedSize"/>
+                        <RadioButton Name="sizeB5" Content="B5" GroupName="Radio_PaperSizes" Style="{StaticResource RadioButtonStyle}" Checked="RadioButton_CheckedSize"/>
+                        <TextBox  Width="72" Height="18" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"  BorderThickness="0,0,0,1"  FontSize="15" >
+                            <TextBox.Resources>
+                                <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left" AlignmentY="Bottom">
+                                    <VisualBrush.Visual>
+                                        <TextBlock FontStyle="Italic" Text=" 长"/>
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </TextBox.Resources>
+                            <TextBox.Style>
+                                <Style TargetType="{x:Type TextBox}">
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value="{x:Null}">
+                                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                        </Trigger>
+                                        <Trigger Property="Text" Value="">
+                                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                        <TextBox  Width="72" Height="18" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"  BorderThickness="0,0,0,1"  FontSize="15" Margin="15,0,0,0" >
+                            <TextBox.Resources>
+                                <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left" AlignmentY="Bottom">
+                                    <VisualBrush.Visual>
+                                        <TextBlock FontStyle="Italic" Text=" 宽"/>
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </TextBox.Resources>
+                            <TextBox.Style>
+                                <Style TargetType="{x:Type TextBox}">
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value="{x:Null}">
+                                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                        </Trigger>
+                                        <Trigger Property="Text" Value="">
+                                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                        <Label  Foreground="#dddddd" FontSize="12" FontWeight="Bold"  Content="mm" Height="24"  HorizontalAlignment="Left" Margin="-8,0,0,0"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Height="30">
+                        <RadioButton  Name="colorBlack" Content="黑白" GroupName="Radio_Color" Style="{StaticResource RadioButtonStyle}" Checked="RadioButton_CheckedColor" />
+                        <RadioButton Content="喷墨彩色" GroupName="Radio_Color" Style="{StaticResource RadioButtonStyle }" Checked="RadioButton_CheckedColor" Margin="-8,0,3,0" />
+                        <RadioButton Content="激光彩色" GroupName="Radio_Color" Style="{StaticResource RadioButtonStyle}" Checked="RadioButton_CheckedColor" Margin="-8,0,3,0"/>
+
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Height="30">
+                        <RadioButton  Name="duplex"  Content="双面" GroupName="Radio_Duplex" Style="{StaticResource RadioButtonStyle}" Checked="RadioButton_CheckedDuplex" />
+                        <RadioButton Content="单面" GroupName="Radio_Duplex" Style="{StaticResource RadioButtonStyle }" Checked="RadioButton_CheckedDuplex" Margin="-8,0,3,0" />
+                        <Label   FontSize="12"   Content="单价:" Height="24"  HorizontalAlignment="Left" Margin="84,0,0,0" />
+
+
+                        <Grid>
+                            <TextBox x:Name="unitPriceTextbox" Width="70" Height="18"   HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"
+             BorderThickness="0,0,0,1" FontSize="15" Margin="0,0,0,0" TextChanged="TextBox_PrintTextChanged"/>
+                            <TextBlock x:Name="placeholderTextBlock" FontSize="16" FontStyle="Italic" Text="0.00"  HorizontalAlignment="Center" VerticalAlignment="Center"
+               Opacity="0.3" IsHitTestVisible="False" Visibility="Visible"/>
+                        </Grid>
+                        <!--<TextBox x:Name="unitPriceTextbox" Width="70" Height="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"  BorderThickness="0,0,0,1"  FontSize="15" Margin="0,0,0,0" TextChanged="TextBox_TextChanged" >
+                            
+                            <TextBox.Resources>
+                                <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Center" AlignmentY="Bottom">
+                                    <VisualBrush.Visual>
+                                        <TextBlock  FontStyle="Italic" Name="resultTextBlock" Text="0.00"/>
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </TextBox.Resources>
+                            
+                            <TextBox.Style>
+                                <Style TargetType="{x:Type TextBox}">
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value="{x:Null}">
+                                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                        </Trigger>
+                                        <Trigger Property="Text" Value="">
+                                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>-->
+                        <Label  Foreground="#dddddd" FontSize="10"   Content="元/份" Height="24"  HorizontalAlignment="Left"  VerticalAlignment="Bottom"/>
+
+
+
+                    </StackPanel>
+                    <Border   Width="340" Height="2" Background="#f3f3f3"  />
+                    <StackPanel  Grid.Row="2"   Width="340" Orientation="Horizontal" >
+
+                        <StackPanel Height="70" >
+                            <Label  Foreground="#3f3f45" FontSize="12" FontWeight="Bold" Content="内页" Height="25" HorizontalAlignment="Left" />
+                            <ComboBox x:Name="comboBox_page" Width="90" Height="40"  SelectedIndex="0" SelectionChanged="PageComboBox_Changed"  Style="{StaticResource MyCbbStyle}"/>
+
+                        </StackPanel>
+                        <StackPanel  HorizontalAlignment="Left" Margin="20,0,20,0">
+                            <Label  Foreground="#3f3f45" FontSize="12" FontWeight="Bold" Content="封面" Height="25" Width="70"  HorizontalAlignment="Left"/>
+                            <ComboBox x:Name="comboBox_cover"  Width="90" Height="40"  SelectionChanged="CoveComboBox_Changed"  Style="{StaticResource MyCbbStyle}"/>
+                        </StackPanel>
+                        <StackPanel  HorizontalAlignment="Left" >
+                            <Label  Foreground="#3f3f45" FontSize="12" FontWeight="Bold" Content="装订方式" Height="25" Width="70"  HorizontalAlignment="Left"/>
+                            <ComboBox  x:Name="comboBox_binding"  Width="120" Height="40"   SelectionChanged="BindingComboBox_Changed"  Style="{StaticResource MyCbbStyle}"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Border   Width="340" Height="2" Background="#f3f3f3"  />
+                    <Label  Foreground="#3f3f45" FontSize="12" FontWeight="Bold" Content="工艺" Height="24" Width="340" HorizontalAlignment="Left" />
+                    <StackPanel Orientation="Horizontal" >
+                        <ListBox x:Name="Print_Technique" SelectionChanged="Print_Listbox"  SelectionMode="Multiple" BorderBrush="Transparent">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal" Width="350"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <Border x:Name="Border" Background="Transparent">
+                                                    <ContentPresenter/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsSelected" Value="True">
+                                                        <Setter TargetName="Border" Property="Background" Value="Transparent"/>
+
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+
+                            <ListBox.ItemTemplate>
+
+                                <DataTemplate>
+                                    <CheckBox Content="{Binding}" Height="20"   Style="{StaticResource MyCheckBox}" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, 
+                            Path=IsSelected, Mode=TwoWay}" Margin="0,0,38,8" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <!-- 示例数据，可以根据需求修改 -->
+                            <sys:String>压痕</sys:String>
+                            <sys:String>覆膜</sys:String>
+                            <sys:String>烫金</sys:String>
+                            <sys:String>勒口</sys:String>
+                            <sys:String>模切</sys:String>
+                            <sys:String>击凸</sys:String>
+
+                            <!-- ... 其他装订方式 -->
+                        </ListBox>
+
+                    </StackPanel>
+
+                </WrapPanel>
+
+
+            </StackPanel>
+            <!--广告单-->
+            <StackPanel  Grid.Row="3" Width="340"  Orientation="Vertical"  HorizontalAlignment="Center" VerticalAlignment="Top" x:Name="Ad_StackPanel" Visibility="Collapsed">
+                <WrapPanel>
+                    <TextBox x:Name="textBox_adverName" Width="340" Height="30" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"  BorderThickness="0,0,0,1"  FontSize="15" >
+                        <TextBox.Resources>
+                            <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left" AlignmentY="Bottom">
+                                <VisualBrush.Visual>
+                                    <TextBlock FontStyle="Italic" Text="账目名称"/>
+                                </VisualBrush.Visual>
+                            </VisualBrush>
+                        </TextBox.Resources>
+                        <TextBox.Style>
+                            <Style TargetType="{x:Type TextBox}">
+                                <Style.Triggers>
+                                    <Trigger Property="Text" Value="{x:Null}">
+                                        <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="">
+                                        <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+                    <Label  Foreground="#3f3f45" FontSize="12" FontWeight="Bold" Content="尺寸" Height="25" Width="340" HorizontalAlignment="Left" />
+                    <StackPanel Orientation="Horizontal" Height="30" >
+                        <TextBox x:Name="textBox_adverWidth" Width="40" Height="18" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"  BorderThickness="0,0,0,1"  FontSize="15" >
+                            <TextBox.Resources>
+                                <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left" AlignmentY="Bottom">
+                                    <VisualBrush.Visual>
+                                        <TextBlock FontStyle="Italic" Text=" 长"/>
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </TextBox.Resources>
+                            <TextBox.Style>
+                                <Style TargetType="{x:Type TextBox}">
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value="{x:Null}">
+                                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                        </Trigger>
+                                        <Trigger Property="Text" Value="">
+                                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                        <Label   FontSize="12"   Content="×" Height="24"  HorizontalAlignment="Left"/>
+                        <TextBox x:Name="textBox_adverHeight"  Width="40" Height="18" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"  BorderThickness="0,0,0,1"  FontSize="15" >
+                            <TextBox.Resources>
+                                <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left" AlignmentY="Bottom">
+                                    <VisualBrush.Visual>
+                                        <TextBlock FontStyle="Italic" Text=" 高"/>
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </TextBox.Resources>
+                            <TextBox.Style>
+                                <Style TargetType="{x:Type TextBox}">
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value="{x:Null}">
+                                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                        </Trigger>
+                                        <Trigger Property="Text" Value="">
+                                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                        <Label  Foreground="#dddddd" FontSize="10"  Content="cm" Height="24"  VerticalAlignment="Bottom" />
+                        <Label   FontSize="12"   Content="排版费:" Height="24"  HorizontalAlignment="Left" Margin="-4,0,0,0"/>
+                        <TextBox x:Name="textBox_LayoutFee" Width="40" Height="18" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"  BorderThickness="0,0,0,1"  FontSize="15"  >
+                            <TextBox.Resources>
+                                <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left" AlignmentY="Bottom">
+                                    <VisualBrush.Visual>
+                                        <TextBlock FontStyle="Italic" Text="0.00"/>
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </TextBox.Resources>
+                            <TextBox.Style>
+                                <Style TargetType="{x:Type TextBox}">
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value="{x:Null}">
+                                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                        </Trigger>
+                                        <Trigger Property="Text" Value="">
+                                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                        <Label  Foreground="#dddddd" FontSize="10"  Content="元/版" Height="24"  HorizontalAlignment="Left" Margin="-5,0,0,0" VerticalAlignment="Bottom"/>
+
+                        <Label   FontSize="12"   Content="单价:" Height="24"  HorizontalAlignment="Left" Margin="-4,0,0,0" />
+                        <Grid>
+                            <TextBox x:Name="textBox_adUnitPrice" Width="40" Height="18"   HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"
+             BorderThickness="0,0,0,1" FontSize="15" Margin="0,0,0,0" TextChanged="TextBox_AdTextChanged"/>
+                            <TextBlock x:Name="placeAdTextBlock" FontSize="15" FontStyle="Italic" Text="0.00"  HorizontalAlignment="Center" VerticalAlignment="Center"
+               Opacity="0.3" IsHitTestVisible="False" Visibility="Visible"/>
+                        </Grid>
+
+
+                        <!--<TextBox x:Name="textBox_adUnitPrice" Width="40" Height="18" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"  BorderThickness="0,0,0,1"  FontSize="15" Margin="0,0,0,0" TextChanged="TextBox_TextChanged" >
+                            <TextBox.Resources>
+                                <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left" AlignmentY="Bottom">
+                                    <VisualBrush.Visual>
+                                        <TextBlock FontStyle="Italic" Text="0.00"/>
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </TextBox.Resources>
+                            <TextBox.Style>
+                                <Style TargetType="{x:Type TextBox}">
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value="{x:Null}">
+                                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                        </Trigger>
+                                        <Trigger Property="Text" Value="">
+                                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>-->
+                        <Label  Foreground="#dddddd" FontSize="10"   Content="元/m²" Height="24"  HorizontalAlignment="Left" Margin="-5,0,0,0" VerticalAlignment="Bottom"/>
+                    </StackPanel>
+
+                    <Label  Foreground="#3f3f45" FontSize="12" FontWeight="Bold" Content="材质" Height="24" Width="340" HorizontalAlignment="Left"/>
+                    <StackPanel Orientation="Horizontal" Height="33">
+                        <RadioButton Content="条幅" GroupName="Radio_AdMaterial" Style="{StaticResource RadioButtonStyle}" Checked="RadioButton_CheckedMaterial" />
+                        <RadioButton Content="相纸" GroupName="Radio_AdMaterial" Style="{StaticResource RadioButtonStyle }" Checked="RadioButton_CheckedMaterial" Margin="24,0,23,0" />
+                        <RadioButton Content="车贴" GroupName="Radio_AdMaterial" Style="{StaticResource RadioButtonStyle}" Checked="RadioButton_CheckedMaterial" Margin="0,0,22,0"/>
+                        <RadioButton Content="背胶" GroupName="Radio_AdMaterial" Style="{StaticResource RadioButtonStyle}" Checked="RadioButton_CheckedMaterial" />
+                    </StackPanel>
+
+
+                    <StackPanel Orientation="Horizontal" Height="33">
+                        <RadioButton Content="KT板" GroupName="Radio_AdMaterial" Style="{StaticResource RadioButtonStyle}" Checked="RadioButton_CheckedMaterial" />
+                        <RadioButton Content="油画布" GroupName="Radio_AdMaterial" Style="{StaticResource RadioButtonStyle }" Margin="24,0,23,0" Checked="RadioButton_CheckedMaterial"/>
+                        <RadioButton Content="写真布" GroupName="Radio_AdMaterial" Style="{StaticResource RadioButtonStyle}" Margin="0,0,22,0" Checked="RadioButton_CheckedMaterial"/>
+                        <RadioButton Content="单透" GroupName="Radio_AdMaterial" Style="{StaticResource RadioButtonStyle}" Checked="RadioButton_CheckedMaterial"/>
+                    </StackPanel>
+                    <Border   Width="340" Height="2" Background="#f3f3f3"  />
+
+                    <StackPanel   Width="340" Orientation="Horizontal" Height="70" >
+
+                        <StackPanel  >
+                            <Label  Foreground="#3f3f45" FontSize="12" FontWeight="Bold" Content="喷绘布" Height="25" HorizontalAlignment="Left" />
+                            <ComboBox x:Name="comboBox_penhuibu"  Width="100" Height="40"   SelectionChanged="PenhuibuComboBox_Changed"  Style="{StaticResource MyCbbStyle}"/>
+                        </StackPanel>
+
+                        <StackPanel  HorizontalAlignment="Left" Margin="20,0,20,0">
+                            <Label  Foreground="#3f3f45" FontSize="12" FontWeight="Bold" Content="亚克力" Height="25" Width="70"  HorizontalAlignment="Left"/>
+                            <ComboBox x:Name="comboBox_acrylic"  Width="100" Height="40"  SelectionChanged="AcrylicComboBox_Changed"   Style="{StaticResource MyCbbStyle}"/>
+                        </StackPanel>
+
+                        <StackPanel>
+                            <Label  Foreground="#3f3f45" FontSize="12" FontWeight="Bold" Content="PVC" Height="25"  HorizontalAlignment="Left"/>
+                            <ComboBox x:Name="comboBox_PVC"  Width="100" Height="40"  SelectionChanged="PVCComboBox_Changed"   Style="{StaticResource MyCbbStyle}"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Label  Foreground="#3f3f45" FontSize="12" FontWeight="Bold" Content="工艺" Height="24" Width="340" HorizontalAlignment="Left" />
+                    <StackPanel Orientation="Horizontal" Height="35">
+                        <ListBox x:Name="Ad_Technique" SelectionChanged="Ad_Listbox" SelectionMode="Multiple" BorderBrush="Transparent">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <Border x:Name="Border" Background="Transparent">
+                                                    <ContentPresenter/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsSelected" Value="True">
+                                                        <Setter TargetName="Border" Property="Background" Value="Transparent"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+
+                            <ListBox.ItemTemplate>
+
+                                <DataTemplate>
+                                    <CheckBox Content="{Binding}" Height="20" Width="70"  Style="{StaticResource MyCheckBox}" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, 
+                            Path=IsSelected, Mode=TwoWay}" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <!-- 示例数据，可以根据需求修改 -->
+
+                            <sys:String>水性</sys:String>
+                            <sys:String>弱溶</sys:String>
+                            <sys:String>UV</sys:String>
+                            <sys:String>雕刻</sys:String>
+                            <sys:String>模切</sys:String>
+
+                            <!-- ... 其他装订方式 -->
+                        </ListBox>
+
+                    </StackPanel>
+                    <Border   Width="340" Height="2" Background="#f3f3f3"  />
+                </WrapPanel>
+
+
+            </StackPanel>
+            <!--其他-->
+            <StackPanel  Grid.Row="3" Width="340"  Orientation="Vertical"  HorizontalAlignment="Center" VerticalAlignment="Top" x:Name="Other_StackPanel" Visibility="Collapsed" >
+                <WrapPanel >
+                    <TextBox x:Name="textBox_otherName" Width="340" Height="50" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"  BorderThickness="0,0,0,1"  FontSize="15" >
+                        <TextBox.Resources>
+                            <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left" AlignmentY="Bottom">
+                                <VisualBrush.Visual>
+                                    <TextBlock FontStyle="Italic" Text="账目名称"/>
+                                </VisualBrush.Visual>
+                            </VisualBrush>
+                        </TextBox.Resources>
+                        <TextBox.Style>
+                            <Style TargetType="{x:Type TextBox}">
+                                <Style.Triggers>
+                                    <Trigger Property="Text" Value="{x:Null}">
+                                        <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="">
+                                        <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="57*"/>
+                            <ColumnDefinition Width="64*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="textBox_OtherUnitPrice" Width="120" Height="40"   HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"
+BorderThickness="0,0,0,1" FontSize="15" TextChanged="TextBox_OtherTextChanged" Grid.ColumnSpan="2"/>
+                        <TextBlock x:Name="placeOtherTextBlock" FontSize="16" FontStyle="Italic" Text="单价"  HorizontalAlignment="Left" VerticalAlignment="Bottom"
+  Opacity="0.3" IsHitTestVisible="False" Visibility="Visible"/>
+                    </Grid>
+                    <!--<StackPanel Orientation="Horizontal" Height="50"  >
+                        <TextBox x:Name="textBox_OtherUnitPrice" Width="120" Height="40" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"  BorderThickness="0,0,0,1"  FontSize="15" Margin="0,0,0,0">
+                            <TextBox.Resources>
+                                <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left" AlignmentY="Bottom">
+                                    <VisualBrush.Visual>
+                                        <TextBlock FontStyle="Italic" Text="单价"/>
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </TextBox.Resources>
+                            <TextBox.Style>
+                                <Style TargetType="{x:Type TextBox}">
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value="{x:Null}">
+                                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                        </Trigger>
+                                        <Trigger Property="Text" Value="">
+                                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                        <Label  Foreground="#dddddd" FontSize="12"   Content="元" Height="24"  HorizontalAlignment="Left"  VerticalAlignment="Bottom"/>
+                    </StackPanel>-->
+
+                    <Label  Foreground="#dddddd" FontSize="15"   Content="元/份" Height="26"  HorizontalAlignment="Left"  VerticalAlignment="Bottom"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <Border   Width="340" Height="2" Background="#f3f3f3" VerticalAlignment="Bottom" Margin="0,210,0,0"/>
+                </WrapPanel>
+
+
+            </StackPanel>
+            <!--         份数          -->
+            <WrapPanel Grid.Row="4" Height="46" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,10,0" >
+
+                <Label  Foreground="#3f3f45" FontSize="12" FontWeight="Bold" Content="金额 :" Height="25"  HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                <TextBox x:Name="Amount_text" FontSize="25" Foreground="#cceabb" Text="0.00" VerticalAlignment="Bottom" BorderThickness="0" BorderBrush="Transparent"/>
+                <Button Content="保存" FontSize="15" FontWeight="Black" Width="140"  Height="46"  Style="{StaticResource BootstrapButtonYellow}" Click="SaveBills_Click"/>
+            </WrapPanel>
+
+        </Grid>
+    </Border>
+</Window>

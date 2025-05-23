@@ -1,0 +1,178 @@
+﻿<Window x:Class="TuwenDayinDian.ChangePrint"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:myhelper="clr-namespace:TuwenDayinDian.Helpers" xmlns:models="clr-namespace:TuwenDayinDian.Models" d:DataContext="{d:DesignInstance Type=models:PrintTask}"
+        mc:Ignorable="d" 
+        Height="392" Width="362"
+        Background="Transparent" 
+        WindowStyle="None" 
+        OpacityMask="White"
+        AllowsTransparency="True" 
+    WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+      UseLayoutRounding="False">
+  
+    <Window.Resources>     
+            <ObjectDataProvider x:Key="Printers"
+                            ObjectType="{x:Type myhelper:PrinterHelper}"
+                            MethodName="GetInstalledPrinters" />
+        
+    </Window.Resources>
+   
+
+    <Border Grid.Row="0"
+                Width="362"
+                Height="392"                  
+                Background="White"
+                CornerRadius="20"
+                BorderThickness="1"
+                BorderBrush="Gray">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="55"/>
+                <RowDefinition Height="45"/>
+                <RowDefinition Height="45"/>
+                <RowDefinition Height="45"/>
+                <RowDefinition Height="45"/>
+                <RowDefinition Height="45"/>
+                <RowDefinition Height="45"/>
+                <RowDefinition Height="1.2*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+
+            <DockPanel  Grid.Row="0"   Width="314" LastChildFill="False">
+                <Label DockPanel.Dock="Left" Foreground="#3f3f45" FontSize="16" FontWeight="Bold" Content="选择打印机" Height="30" />
+                <Button DockPanel.Dock="Right"  Width="30" Height="30" 
+                Background="Transparent"
+                BorderBrush="Transparent"
+                Foreground="#c0c0c2"
+                FontSize="25"
+                Content="×"                           
+                Click="close_setChangePrint"/>
+            </DockPanel>
+
+            <!--打印机名称-->
+            <WrapPanel Grid.Row="1" Width="314" >
+                <Border DockPanel.Dock="Bottom" Width="314" Height="2" Background="#f3f3f3"/>
+                <Label DockPanel.Dock="Left" Foreground="#3f3f44" FontSize="12" FontWeight="Bold" Content="黑白打印" Height="30" />
+                <ComboBox   
+                    x:Name="changePrint_Black_Print" 
+                    Margin="10,5"
+                      Width="230" Height="30"                      
+                      ItemsSource="{Binding Source={StaticResource Printers}}"                       
+                      SelectedIndex="0"
+                      Style="{StaticResource MyCbbStyle}"/>
+            </WrapPanel>
+
+            <WrapPanel Grid.Row="2" Width="314" >
+                <Border DockPanel.Dock="Bottom" Width="314" Height="2" Background="#f3f3f3"/>
+                <Label DockPanel.Dock="Left" Foreground="#3f3f44" FontSize="12" FontWeight="Bold" Content="喷墨彩色" Height="30" />
+                <ComboBox   
+                     x:Name="changePrint_InkColor_Print" 
+                    Margin="10,5"
+                      Width="230" Height="30"                     
+                      ItemsSource="{Binding Source={StaticResource Printers}}"                       
+                      SelectedIndex="0"
+                      Style="{StaticResource MyCbbStyle}"/>
+            </WrapPanel>
+
+            <WrapPanel Grid.Row="3" Width="314" >
+                <Border DockPanel.Dock="Bottom" Width="314" Height="2" Background="#f3f3f3"/>
+                <Label DockPanel.Dock="Left" Foreground="#3f3f44" FontSize="12" FontWeight="Bold" Content="激光彩色" Height="30" />
+                <ComboBox   
+                     x:Name="changePrint_LaserColor_Print" 
+                    Margin="10,5"
+                      Width="230" Height="30"                     
+                      ItemsSource="{Binding Source={StaticResource Printers}}"                       
+                      SelectedIndex="0"
+                      Style="{StaticResource MyCbbStyle}"/>
+            </WrapPanel>
+
+            <WrapPanel Grid.Row="4" Width="314" >
+                <Border DockPanel.Dock="Bottom" Width="314" Height="2" Background="#f3f3f3"/>
+                <Label DockPanel.Dock="Left" Foreground="#3f3f44" FontSize="12" FontWeight="Bold" Content="封面打印" Height="30" />
+                <ComboBox   
+                     x:Name="changePrint_Cove_Print" 
+                    Margin="10,5"
+                      Width="230" Height="30"                     
+                      ItemsSource="{Binding Source={StaticResource Printers}}"                       
+                      SelectedIndex="0"
+                      Style="{StaticResource MyCbbStyle}"/>
+            </WrapPanel>
+            <WrapPanel Grid.Row="5" Width="314" >
+                <Border DockPanel.Dock="Bottom" Width="314" Height="2" Background="#f3f3f3"/>
+                <Label DockPanel.Dock="Left" Foreground="#3f3f44" FontSize="12" FontWeight="Bold" Content="黑白装订" Height="30" />
+                <ComboBox   
+                     x:Name="changePrint_BlackBinding_Print" 
+                    Margin="10,5"
+                      Width="230" Height="30"                     
+                      ItemsSource="{Binding Source={StaticResource Printers}}"                       
+                      SelectedIndex="0"
+                      Style="{StaticResource MyCbbStyle}"/>
+            </WrapPanel>
+            
+            <WrapPanel Grid.Row="6" Width="314" >
+                <Border DockPanel.Dock="Bottom" Width="314" Height="2" Background="#f3f3f3"/>
+                <Label DockPanel.Dock="Left" Foreground="#3f3f44" FontSize="12" FontWeight="Bold" Content="照片打印" Height="30" />
+                <ComboBox   
+                     x:Name="changePrint_Photo_Print" 
+                    Margin="10,5"
+                      Width="230" Height="30"                     
+                      ItemsSource="{Binding Source={StaticResource Printers}}"                       
+                      SelectedIndex="0"
+                      Style="{StaticResource MyCbbStyle}"/>
+            </WrapPanel>
+
+            <Button Content="保存"
+                    FontSize="15"
+                    FontWeight="Black"  
+                    Width="314"
+                    Height="48"
+                    Grid.Row="7"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource BootstrapButtonYellow}" Margin="0,8,0,0" Click="SavePrintName_Click" />
+
+            <!--<Border Height="40" Width="265"
+                            Background="#f7f7f7"
+                            CornerRadius="10" RenderTransformOrigin="0.501,0.579">
+                    <StackPanel VerticalAlignment="Center" 
+                                Orientation="Horizontal">
+
+                        -->
+            <!--<TextBlock Text="Canon iR-ADV 8205II"                                 
+                                   FontSize="12"                                   
+                                   VerticalAlignment="Center"                             
+                                   Foreground="#3f3f44"
+                                   Margin="5,0,0,0" />
+                        <TextBlock Text="&#xe651;"
+                                   FontSize="8"
+                                   Foreground="#3f3f44"
+                                   VerticalAlignment="Center"
+                                   FontFamily="/Resources/#iconfont"
+                                   Margin="110,0,0,0" />-->
+            <!--            
+                    
+                </StackPanel>
+                </Border>-->
+
+
+
+
+
+
+
+        </Grid>
+
+
+
+    </Border>
+
+
+
+</Window>

@@ -1,0 +1,74 @@
+﻿<Window x:Class="TuwenDayinDian.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TuwenDayinDian"
+        xmlns:compon="clr-namespace:TuwenDayinDian.Components"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d"
+        Title="MainWindow"
+        MinHeight="650"
+        Width="1280"
+        MinWidth="1260"
+        Background="White">
+    <Grid>
+        <!--设置两列布局-->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!--第一列内容-->
+        <Grid Grid.Column="0"
+              Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!--软件logo-->
+            <!--<TextBlock Grid.Row="0"
+                       Text="软件LOGO"
+                       FontSize="24"
+                       Margin="10"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center" />-->
+            <Image Source="/Images/logo1.png"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Top"
+                   Grid.Row="0"
+                    Height="70" Width="150" Margin="0,20,0,0" />
+
+            <!--竖向菜单-->
+            <compon:LeftMenuList Grid.Row="1"
+                                 x:Name="MyLeftMenu" Loaded="MyLeftMenu_Loaded"></compon:LeftMenuList>
+
+            <!--底部的grid-->
+            <Grid Grid.Row="2"
+                  Height="100">
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="升级你的计划从这里开始"
+                               HorizontalAlignment="Center"
+                               FontSize="10" />
+                    <Button Content="获取专业版"
+                            Width="120"
+                            Height="40"
+                            HorizontalAlignment="Center"
+                            Margin="0,10,0,0"
+                                                      Style="{StaticResource BootstrapButtonYellow}" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+        <!--第二列内容-->
+        <Frame Grid.Column="1"
+               Name="ContentFrame"
+               NavigationUIVisibility="Hidden"
+               >
+            <!--其他页面的内容将在这里加载-->
+
+        </Frame>
+    </Grid>
+</Window>

@@ -1,0 +1,73 @@
+﻿<UserControl x:Class="TuwenDayinDian.Components.LeftMenuList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:models="clr-namespace:TuwenDayinDian.Models"
+             xmlns:local="clr-namespace:TuwenDayinDian.Components"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="500">
+    <Grid>
+        <ListView Name="MenuList"
+                  SelectionMode="Single" BorderThickness="0"
+                  x:FieldModifier="public"
+                  >
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment"
+                            Value="Stretch" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListViewItem">
+                                <Border x:Name="Bd"
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        Padding="{TemplateBinding Padding}"
+                                        CornerRadius="4"
+                                        >
+                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected"
+                                             Value="True">
+                                        <Setter TargetName="Bd"
+                                                Property="Background"
+                                                Value="#cceabb" 
+                                                
+                                                />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal"
+                                Margin="10">
+                        <!-- Icon Textblock -->
+                        <TextBlock Text="{Binding Icon}"
+                                   FontSize="12"
+                                   Margin="0,0,10,0" />
+                        <!-- Menu Text -->
+                        <TextBlock Text="{Binding MenuText}"
+                                   FontSize="12" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <!-- Menu Items -->
+            <models:MenuItem Icon="✓"
+                            MenuText="任务列表" />
+            <models:MenuItem Icon="💼"
+                            MenuText="帐单" />
+            <!--<models:MenuItem Icon="⭐"
+                            MenuText="评价" />-->
+            <models:MenuItem Icon="👤"
+                            MenuText="远程打印" />
+        </ListView>
+    </Grid>
+</UserControl>
