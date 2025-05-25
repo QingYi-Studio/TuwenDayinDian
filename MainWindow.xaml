@@ -7,11 +7,12 @@
         xmlns:compon="clr-namespace:TuwenDayinDian.Components"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
-        Title="MainWindow"
+        Title="图文打印"
         MinHeight="650"
         Width="1280"
         MinWidth="1260"
-        Background="White">
+        Background="White"
+        WindowStyle="None">
     <Grid>
         <!--设置两列布局-->
         <Grid.ColumnDefinitions>
