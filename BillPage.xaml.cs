@@ -312,26 +312,21 @@ namespace TuwenDayinDian
             if (BillListView.SelectedItem is Bill selectedItem)
             {
                 // 更新操作逻辑，例如弹出一个对话框修改数据
-               Console.WriteLine($"更新: {selectedItem.Id}");
+                // Console.WriteLine($"更新: {selectedItem.Id}");
 
 
-                var addBillInfo = new AddBillInfo("", PrintpicesList);
-                // selectionWindow.Owner = this.Parent as Window;
+                var addBillInfo = new AddBillInfo(selectedItem.Id);
                 addBillInfo.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                addBillInfo.AddBillInfoSaved += OnAddBillInfoSaved;
                 addBillInfo.ShowDialog();
 
-
-
-
-
-
-
-
-
-
-
-
+                // 以下是尝试使用本地缓存传入的一套代码，当然，我还是觉得从数据库获取更加准确
+                // 同时建议加一个每分钟/每五分钟从数据库获取一次当前页面数据
+                // 这个的实例化没写，没注释我不知道你的这些变量是什么
+                /*
+                var addBillInfo = new AddBillInfo(selectedItem.Id, selectedItem.Date, selectedItem.Amount, selectedItem.FileDetail, selectedItem.OrderBy);
+                addBillInfo.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                addBillInfo.ShowDialog();
+                */
             }
         }
 

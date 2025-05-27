@@ -167,6 +167,20 @@ namespace TuwenDayinDian.windows
             comboBox_printType.SelectedIndex = 0;
         }
 
+        /// <summary>
+        /// 针对已有ID进行数据库账单更新的实例化方法
+        /// </summary>
+        /// <param name="id"></param>
+        public AddBillInfo(int id)
+        {
+            InitializeComponent();
+            /* TODO
+            这里写一下数据库查询语句
+            然后把查询到的数据填写到表单中
+            比如说：textBox_printName.Text = ...这种
+            */
+        }
+
         //public AddBillInfo1(string name, List<PrintpicesModel> printpicesList, Bill selectedItem)
         //{
 
